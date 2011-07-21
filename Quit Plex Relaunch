@@ -1,0 +1,20 @@
+--This script gets the PID of the specified app name and then kills that process based on the PID it found.  Great for killing terminal process.
+set app_name to "relaunch"
+
+set the_pid to ""
+set i to 0
+repeat while the_pid is ""
+	delay 0.25
+	
+	set i to i + 1
+	set the_pid to (do shell script "ps ax | grep " & (quoted form of app_name) & " | grep -v grep | awk '{print $1}'")
+	
+	if i > 30 then
+		exit repeat
+	end if
+	
+end repeat
+if the_pid is not "" then do shell script ("kill -9 " & the_pid)
+
+--Quit
+tell me to quit
